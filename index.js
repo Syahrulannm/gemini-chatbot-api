@@ -29,10 +29,14 @@ app.post("/api/chat", async (req, res) => {
 
     if (!Array.isArray(conversation)) throw new Error("Messages must be an array!");
 
-    const contents = conversation.map(({ role, content }) => ({
-      role,
-      parts: [{ text: content }],
-    }));
+    const contents = conversation.map(({ role, content }) => {
+      // Convert "bot" to "model" for Gemini API compatibility
+      const geminiRole = role === "bot" ? "model" : role;
+      return {
+        role: geminiRole,
+        parts: [{ text: content }],
+      };
+    });
 
     console.log("Formatted contents:", JSON.stringify(contents, null, 2));
 
