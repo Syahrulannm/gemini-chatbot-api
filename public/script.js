@@ -2,6 +2,7 @@
 const chatForm = document.getElementById("chat-form");
 const userInput = document.getElementById("user-input");
 const chatBox = document.getElementById("chat-box");
+const emptyState = document.getElementById("empty-state");
 
 // API endpoint
 const API_ENDPOINT = "/api/chat";
@@ -13,21 +14,39 @@ const NO_RESULT_MESSAGE = "Sorry, no response received.";
 let isWaitingForResponse = false;
 
 /**
+ * Hide/show empty state based on messages
+ */
+function updateEmptyState() {
+  const hasMessages = chatBox.querySelectorAll(".message").length > 0;
+  if (emptyState) {
+    emptyState.style.display = hasMessages ? "none" : "flex";
+  }
+}
+
+/**
  * Append a message to the chat box
  * @param {string} message - The message content
  * @param {string} role - 'user' or 'bot'
  * @returns {HTMLElement} - The message element created
  */
 function appendMessage(message, role) {
-  const messageElement = document.createElement("div");
-  messageElement.className = `message ${role}`;
-  messageElement.textContent = message;
-  chatBox.appendChild(messageElement);
+  const messageWrapper = document.createElement("div");
+  messageWrapper.className = `message ${role}`;
+
+  const messageBubble = document.createElement("div");
+  messageBubble.className = "message-bubble";
+  messageBubble.textContent = message;
+
+  messageWrapper.appendChild(messageBubble);
+  chatBox.appendChild(messageWrapper);
+
+  // Update empty state
+  updateEmptyState();
 
   // Auto-scroll to bottom
   chatBox.scrollTop = chatBox.scrollHeight;
 
-  return messageElement;
+  return messageBubble;
 }
 
 /**
@@ -35,12 +54,13 @@ function appendMessage(message, role) {
  * @returns {Array} - Array of message objects with role and content
  */
 function buildConversationHistory() {
-  const messages = chatBox.querySelectorAll(".message");
+  const messageWrappers = chatBox.querySelectorAll(".message");
   const conversation = [];
 
-  messages.forEach((msg) => {
-    const role = msg.classList.contains("user") ? "user" : "bot";
-    const content = msg.textContent;
+  messageWrappers.forEach((wrapper) => {
+    const role = wrapper.classList.contains("user") ? "user" : "bot";
+    const bubble = wrapper.querySelector(".message-bubble");
+    const content = bubble.textContent;
 
     // Skip "Thinking..." messages - don't send temporary placeholders to API
     if (content === THINKING_MESSAGE) {

@@ -1,20 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Gemini AI Chatbot</title>
-  <link rel="stylesheet" href="style.css"/>
-</head>
-<body>
-  <div class="container">
-    <h1>Gemini AI Chatbot</h1>
-    <div id="chat-box" class="chat-box"></div>
-    <form id="chat-form">
-      <input type="text" id="user-input" placeholder="Type your message..." autocomplete="off" required />
-      <button type="submit">Send</button>
-    </form>
-  </div>
-  <script src="script.js"></script>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gemini AI Chatbot</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  </head>
+  <body>
+    <div class="chat-container">
+      <!-- Header -->
+      <div class="chat-header">
+        <div class="header-content">
+          <div class="header-title">
+            <i class="fas fa-brain"></i>
+            <h1>Gemini AI Assistant</h1>
+          </div>
+          <p class="header-subtitle">Powered by Google Gemini AI</p>
+        </div>
+      </div>
+
+      <!-- Chat Messages -->
+      <div id="chat-box" class="chat-box"></div>
+
+      <!-- Empty State -->
+      <div class="empty-state" id="empty-state">
+        <i class="fas fa-comments"></i>
+        <h2>Start a Conversation</h2>
+        <p>Ask me anything! I'm here to help.</p>
+      </div>
+
+      <!-- Input Form -->
+      <form id="chat-form" class="chat-form">
+        <div class="input-wrapper">
+          <input type="text" id="user-input" class="message-input" placeholder="Type your message here..." autocomplete="off" required />
+          <button type="submit" class="send-button" title="Send message">
+            <i class="fas fa-paper-plane"></i>
+            <span>Send</span>
+          </button>
+        </div>
+      </form>
+
+      <!-- Footer -->
+      <div class="chat-footer">
+        <p>This chatbot uses Google Gemini AI. Your conversations are not stored.</p>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
 </html>
